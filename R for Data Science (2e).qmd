@@ -1,0 +1,172 @@
+---
+title: "R for Data Science: Activity in Sec Math 17"
+author: "Jayson Jay Alvarez"
+format: html
+editor: visual
+---
+
+```{r}
+
+```
+
+# Introduction
+
+## What Will You Learn?
+
+Review the pipeline because sir will make it a part of the exam
+
+![this is the pipeline](Tidyverse.png)
+
+## The Tidyverse
+
+To install the tidyverse package use the code:`install.packages("tidyverse")`
+
+```{r}
+#|label: load-package
+library(tidyverse)
+```
+
+#### We installed other packages
+
+`install.packages(c("arrow", "babynames", "curl", "duckdb", "gapminder", "ggrepel", "ggridges", "ggthemes", "hexbin", "janitor", "Lahman", "leaflet", "maps", "nycflights13", "openxlsx", "palmerpenguins", "repurrrsive", "tinymodels", "writexl"))`
+
+# Data Visualization
+
+::: callout-note
+## Reminder
+
+First load the tidyverse package
+:::
+
+```{r}
+#|label: load-packages
+
+
+library(palmerpenguins)
+library(ggthemes) 
+```
+
+## First steps
+
+```{r}
+penguins
+```
+
+```{r}
+glimpse(penguins)
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(aes(color = species, shape = species)) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Body mass and flipper length",
+    subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    x = "Flipper length (mm)", y = "Body mass (g)",
+    color = "Species", shape = "Species"
+  ) +
+  scale_color_colorblind()
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = island)
+) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point() +
+  geom_smooth()
+
+ggplot() +
+  geom_point(
+    data = penguins,
+    mapping = aes(x = flipper_length_mm, y = body_mass_g, color = bill_depth_mm)
+  ) +
+  geom_smooth(
+    data = penguins,
+    mapping = aes(x = flipper_length_mm, y = body_mass_g, color = bill_depth_mm)
+  )
+```
+
+# GGPLOT2CALLS
+
+```{r}
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point()
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point()
+penguins |> 
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point()
+```
+
+# Visualizing Distributions
+
+```{r}
+ggplot(penguins, aes(x = species)) +
+  geom_bar()
+
+ggplot(penguins, aes(x = fct_infreq(species))) +
+  geom_bar()
+
+ggplot(penguins, aes(x = body_mass_g)) + geom_histogram(binwidth = 200)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 20)
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 2000)
+
+```
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density()
+#> Warning: Removed 2 rows containing non-finite values (`stat_density()`).
+```
+
+# Visualizing Relationships
+
+```{r}
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_boxplot()
+
+ggplot(penguins, aes(x = body_mass_g, color = species)) +
+  geom_density(linewidth = 0.90)
+
+ggplot(penguins, aes(x = body_mass_g, color = species, fill = species)) +
+  geom_density(alpha = 0.15)
+
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar()
+
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill")
+```
+
+```{r}
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = island))
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = species)) +
+  facet_wrap(~island)
+```
+
+
